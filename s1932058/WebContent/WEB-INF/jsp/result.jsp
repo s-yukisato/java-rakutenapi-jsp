@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="model.Result" %>
+<%@ page import="model.Items" %>
 <%
-Result result = (Result)	request.getAttribute("result");
+Items items = new Items();
+items = (Items) request.getAttribute("result");
 %>
 <!DOCTYPE html>
 <html>
@@ -12,8 +13,13 @@ Result result = (Result)	request.getAttribute("result");
 </head>
 <body>
 	<h1>検索結果</h1>
-	<p><%= result.getTitle() %></p>
-	<p><%= result.getAuthor() %></p>
-	<img src="<%= result.getImageUrl() %>"></p>
+	<% for(int i = 0; i < items.getItems().size(); i++) { %>
+	<div>
+		<p><%= i %>
+		<p><%= items.getItems().get(i).getTitle() %></p>
+		<p><%= items.getItems().get(i).getAuthor() %></p>
+		<img src="<%= items.getItems().get(i).getImageUrl() %>"></p>
+	</div>
+	<% } %>
 </body>
 </html>

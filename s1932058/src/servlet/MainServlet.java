@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import access.Access;
+import model.Items;
 import model.Result;
 
 /**
@@ -34,14 +37,22 @@ public class MainServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Access ac = new Access();
+		Items items = new Items();
+		List<Result> list = new ArrayList<>();
 		JsonNode result = ac.getResult("https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=python&booksGenreId=000&elements=title%2Cauthor%2ClargeImageUrl&formatVersion=2&hits=10&applicationId=");
-//		for(int i = 0; i<1; i++) {
-		String title = result.get("Items").get(0).get("title").asText();
-		String author = result.get("Items").get(0).get("author").asText();
-		String imageUrl = result.get("Items").get(0).get("largeImageUrl").asText();
-		Result re = new Result(title, author, imageUrl);
-//		}
-		request.setAttribute("result", re);
+		for(int i = 0; i<10; i++) {
+			String title = result.get("Items").get(i).get("title").asText();
+			String author = result.get("Items").get(i).get("author").asText();
+			String imageUrl = result.get("Items").get(i).get("largeImageUrl").asText();
+			Result re = new Result(title, author, imageUrl);
+			System.out.println(re);
+			list.add(re);
+		}
+		System.out.println(list);
+		items.setItems(list);
+		System.out.println(items);
+		System.out.println(items.getItems().size());
+		request.setAttribute("result", items);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
 		dispatcher.forward(request, response);
 	}
