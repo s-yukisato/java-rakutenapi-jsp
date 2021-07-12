@@ -39,7 +39,7 @@ public class MainServlet extends HttpServlet {
 		String url = "https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404"
 				+ "?format=json&keyword=%E6%9C%AC&booksGenreId=000&sort=sales&hits=30"
 				+ "&formatVersion=2&elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl"
-				+ "&applicationId=";
+				+ "&applicationId=1062302241302135134";
 		Access api = new Access();
 		Items items = new Items();
 		List<BookData> list = new ArrayList<>();
@@ -65,20 +65,8 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Access api = new Access();
-		Items items = new Items();
-		List<BookData> list = new ArrayList<>();
-		JsonNode result = api.getResult("https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=python&booksGenreId=000&elements=title%2Cauthor%2ClargeImageUrl&formatVersion=2&hits=10&applicationId=1062302241302135134");
-		for(int i = 0; i<10; i++) {
-			String title = result.get("Items").get(i).get("title").asText();
-			String author = result.get("Items").get(i).get("author").asText();
-			String imageUrl = result.get("Items").get(i).get("largeImageUrl").asText();
-			BookData re = new BookData(title, author, imageUrl);
-			list.add(re);
-		}
-		items.setItems(list);
-		request.setAttribute("result", items);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
+		request.setCharacterEncoding("UTF-8");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
 		dispatcher.forward(request, response);
 	}
 
