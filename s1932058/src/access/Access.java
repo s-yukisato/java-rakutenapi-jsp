@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Access {
 
-	public static JsonNode getResult(String urlString) {
+	public JsonNode getResult(String urlString) {
 		HttpURLConnection conn = null;
 		String result = "";
 		ObjectMapper mapper = new ObjectMapper();

@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import access.Access;
+import model.BookData;
 import model.Items;
-import model.Result;
 
 /**
  * Servlet implementation class MainServlet
@@ -36,24 +36,28 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Access ac = new Access();
+		String url = "https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404"
+				+ "?format=json&keyword=%E6%9C%AC&booksGenreId=000&sort=sales&hits=30"
+				+ "&formatVersion=2&elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl"
+				+ "&applicationId=";
+		Access api = new Access();
 		Items items = new Items();
-		List<Result> list = new ArrayList<>();
-		JsonNode result = ac.getResult("https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=python&booksGenreId=000&elements=title%2Cauthor%2ClargeImageUrl&formatVersion=2&hits=10&applicationId=");
+		List<BookData> list = new ArrayList<>();
+		JsonNode result = api.getResult(url);
 		for(int i = 0; i<10; i++) {
 			String title = result.get("Items").get(i).get("title").asText();
 			String author = result.get("Items").get(i).get("author").asText();
+			String publisherName = result.get("Items").get(i).get("publisherName").asText();
+			String itemPrice = result.get("Items").get(i).get("itemPrice").asText();
+			String salesDate = result.get("Items").get(i).get("salesDate").asText();
+			String reviewAverage = result.get("Items").get(i).get("reviewAverage").asText();
 			String imageUrl = result.get("Items").get(i).get("largeImageUrl").asText();
-			Result re = new Result(title, author, imageUrl);
-			System.out.println(re);
+			BookData re = new BookData(title, author, publisherName, itemPrice, salesDate, reviewAverage, imageUrl);
 			list.add(re);
 		}
-		System.out.println(list);
 		items.setItems(list);
-		System.out.println(items);
-		System.out.println(items.getItems().size());
 		request.setAttribute("result", items);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -61,8 +65,21 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		Access api = new Access();
+		Items items = new Items();
+		List<BookData> list = new ArrayList<>();
+		JsonNode result = api.getResult("https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=python&booksGenreId=000&elements=title%2Cauthor%2ClargeImageUrl&formatVersion=2&hits=10&applicationId=1062302241302135134");
+		for(int i = 0; i<10; i++) {
+			String title = result.get("Items").get(i).get("title").asText();
+			String author = result.get("Items").get(i).get("author").asText();
+			String imageUrl = result.get("Items").get(i).get("largeImageUrl").asText();
+			BookData re = new BookData(title, author, imageUrl);
+			list.add(re);
+		}
+		items.setItems(list);
+		request.setAttribute("result", items);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

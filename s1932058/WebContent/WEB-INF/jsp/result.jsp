@@ -18,7 +18,7 @@ items = (Items) request.getAttribute("result");
 		<p><%= i %>
 		<p><%= items.getItems().get(i).getTitle() %></p>
 		<p><%= items.getItems().get(i).getAuthor() %></p>
-		<img src="<%= items.getItems().get(i).getImageUrl() %>"></p>
+		<img src="<%= items.getItems().get(i).getImageUrl() %>">
 	</div>
 	<% } %>
 </body>
