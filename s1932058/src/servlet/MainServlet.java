@@ -18,6 +18,7 @@ import access.Access;
 import dao.ManageDAO;
 import model.BookData;
 import model.Items;
+import model.Manage;
 
 /**
  * Servlet implementation class MainServlet
@@ -83,6 +84,14 @@ public class MainServlet extends HttpServlet {
 		insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
 		dispatcher.forward(request, response);
+	}
+
+	/** DAOを呼び出す */
+	void selectAll(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException {
+		ManageDAO md = new ManageDAO();
+		List<Manage> list = md.findAll();
+		request.setAttribute("list", list);
 	}
 
 	void insert(String title, String author, String publisher, int price, String imageUrl, String comment,

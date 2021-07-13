@@ -23,7 +23,32 @@ public class Manage {
 	private String purchaseStore;
 	/**  購入日 */
 	private String purchaseDate;
-
+	/**
+	 * 登録した本の一覧表示用
+	 * @param id
+	 * @param title
+	 * @param imageUrl
+	 */
+	public Manage(String id, String title, String imageUrl) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.imageUrl = imageUrl;
+	}
+	/**
+	 * 初回登録用
+	 * @param id
+	 * @param title
+	 * @param author
+	 * @param publisher
+	 * @param price
+	 * @param imageUrl
+	 * @param comment
+	 * @param evaluation
+	 * @param state
+	 * @param purchaseStore
+	 * @param purchaseDate
+	 */
 	public Manage(String id, String title, String author, String publisher, int price, String imageUrl, String comment,
 			int evaluation, String state, String purchaseStore, String purchaseDate) {
 		super();

@@ -29,7 +29,7 @@
 		    </nav>
 		    <div class="collapse" id="navbarToggleExternalContent">
 		        <div class="bg-dark p-4">
-		            <a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>私の本棚</u></a>
+		            <a href="/s1932058/BookshelfServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>私の本棚</u></a>
 		            <br>
 		            <span class="text-muted">登録した本を見に行く</span>
 		        </div>
