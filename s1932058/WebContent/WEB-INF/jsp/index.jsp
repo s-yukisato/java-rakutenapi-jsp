@@ -17,6 +17,28 @@
 </head>
 <body>
 	<header>
+		    <nav class="navbar navbar-dark bg-dark">
+		        <div class="container-fluid d-flex justify-content-between">
+		            <a href="/s1932058/MainServlet" class="btn text-white p-3" role="button" style="font-size:24pt;font-weight:bold;">書籍管理アプリ</a>
+		            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+		                data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+		                aria-expanded="false" aria-label="Toggle navigation">
+		                <span class="navbar-toggler-icon"></span>
+		            </button>
+		        </div>
+		    </nav>
+		    <div class="collapse" id="navbarToggleExternalContent">
+		        <div class="bg-dark p-4">
+		            <a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>私の本棚</u></a>
+		            <br>
+		            <span class="text-muted">登録した本を見に行く</span>
+		        </div>
+		        <div class="bg-dark p-4">
+		            <a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探す</u></a>
+		            <br>
+		            <span class="text-muted">レビューや売上で検索できます</span>
+		        </div>
+		    </div>
 		<div class="bg-dark shadow-sm">
 			<div class="container">
 				<a href="#" class="navbar-brand d-flex align-items-center"> <svg
@@ -164,6 +186,7 @@
 	</footer>
 	<script>
 		ScrollReveal().reveal('.card');
+
 		function bindData(id) {
 			// 登録内容の反映
 			const inputTitle = document.getElementById("inputTitle");
@@ -229,11 +252,10 @@
 		}
 
 		function settingDate() {
-		    var tomorrow = new Date();
-		    tomorrow.setDate(tomorrow.getDate()+1); //翌日の日付を取得
-		    var yyyy = tomorrow.getFullYear();
-		    var mm = ("0"+(tomorrow.getMonth()+1)).slice(-2);
-		    var dd = ("0"+tomorrow.getDate()).slice(-2);
+		    var d = new Date();
+		    var yyyy = d.getFullYear();
+		    var mm = ("0"+(d.getMonth()+1)).slice(-2);
+		    var dd = ("0"+d.getDate()).slice(-2);
 		    document.getElementById("inputPurchaseDate").value=yyyy+'-'+mm+'-'+dd;
 		}
 	</script>
