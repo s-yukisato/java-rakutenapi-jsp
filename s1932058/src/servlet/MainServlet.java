@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import access.Access;
+import dao.ManageDAO;
 import model.BookData;
 import model.Items;
 
@@ -65,9 +67,29 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/** 文字化けを避ける */
 		request.setCharacterEncoding("UTF-8");
+		/** データベースにフォーム内容を登録する */
+		String title = request.getParameter("title");
+		String author = request.getParameter("author");
+		String publisher = request.getParameter("publisher");
+		int price = Integer.parseInt(request.getParameter("price"));
+		String comment = request.getParameter("comment");
+		String state = request.getParameter("state");
+		int evaluation = Integer.parseInt(request.getParameter("evaluation"));
+		String purchaseStore = request.getParameter("purchaseStore");
+		String purchaseDate = request.getParameter("purchaseDate");
+		String imageUrl = request.getParameter("imageUrl");
+		insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
 		dispatcher.forward(request, response);
+	}
+
+	void insert(String title, String author, String publisher, int price, String imageUrl, String comment,
+			int evaluation, String state, String purchaseStore, String purchaseDate) {
+		ManageDAO md = new ManageDAO();
+		String id = UUID.randomUUID().toString();
+		boolean success = md.insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
 	}
 
 }
