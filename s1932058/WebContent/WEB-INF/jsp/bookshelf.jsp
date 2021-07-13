@@ -40,25 +40,188 @@
 		        </div>
 		    </div>
 	</header>
-	<%
-		if (bookList != null) {
-	%>
-		<%
-			for (Manage book : bookList) {
-		%>
-			<p><%= book.getTitle()%></p>
-			<img src="<%= book.getImageUrl()%>">
+		<main>
+		<div>
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+				<%
+					if (bookList != null) {
+				%>
+					<%
+						for (int i = 0; i < bookList.size(); i++) {
+					%>
+					<div class="col">
+						<div class="card shadow-sm">
+							<img id="img<%=i%>" class="d-block mx-auto"
+								src="<%= bookList.get(i).getImageUrl()%>" width="177"
+								height="200">
+							<div class="card-body">
+								<h4 id="title<%=i%>" class="card-title text-success">
+									<u><%= bookList.get(i).getTitle()%></u>
+								</h4>
+								<button type="button" id="<%=i%>" class="btn btn-secondary"
+									data-bs-toggle="modal" data-bs-target="#detailModal"
+									onclick="bindData(this.id)">詳細</button>
+								<button type="button" id="<%=i%>" class="btn btn-warning"
+									data-bs-toggle="modal" data-bs-target="#updateModal"
+									onclick="bindData(this.id)">変更</button>
+								<button type="button" id="<%=i%>" class="btn btn-danger"
+									data-bs-toggle="modal" data-bs-target="#deleteModal"
+								>削除</button>
+							</div>
+						</div>
+					</div>
+					<%
+						}
+					%>
+				<%
+					} else {
+				%>
+					<h1>登録した本がありません。</h1>
+					<a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探す</u></a>
+				<%
+					}
+				%>
+				</div>
+			</div>
 
-		<%
-			}
-		%>
-	<%
-		} else {
-	%>
-		<h1>登録した本がありません。</h1>
-		<a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探す</u></a>
-	<%
-		}
-	%>
+			<!-- 詳細用Modal -->
+			<div class="modal fade" id="detailModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title" id="exampleModalLabel">詳細</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<img src="<%= imageUrl %>">
+							<p>タイトル	: <%= title %></p>
+							<p>著者		： <%= author %></p>
+							<p>出版社	： <%= publisher %></p>
+							<p>値段 	： <%= price %></p>
+							<p>状態 	： <%= state %></p>
+							<p>評価 	： <%= evaluation %></p>
+							<p>コメント	： <%= comment %></p>
+							<p>店舗名	： <%= purchaseStore  %></p>
+							<p>購入日	： <%= purchaseDate  %></p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">閉じる</button>
+							<button type="submit" form="registerForm" class="btn btn-success">更新</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 更新用Modal -->
+			<div class="modal fade" id="updateModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title" id="exampleModalLabel">変更フォーム</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<form class="row g-3" action="/s1932058/MainServlet"
+								method="post" id="registerForm">
+								<div class="col-12 form-floating mb-3">
+									<input type="text" name="title" class="form-control"
+										id="inputTitle" placeholder="Title"> <label
+										for="inputTitle" class="form-label">Title</label>
+								</div>
+								<div class="col-12 form-floating">
+									<textarea class="form-control" name="comment"
+										placeholder="Leave a comment here" id="inputComment"
+										style="height: 100px"></textarea>
+									<label for="inputComment">Comments</label>
+								</div>
+								<div class="col-md-4 form-floating">
+									<select id="inputState" class="form-select" name="state">
+										<option selected>読みたい！</option>
+										<option>読んでいる！</option>
+										<option>読み終わった！</option>
+									</select> <label for="inputState" class="form-label">State</label>
+								</div>
+								<div class="col-md-4">
+									<label for="inputEvaluation" class="form-label">Evaluation</label>
+									<input type="range" class="form-range" min="0" max="5" step="1"
+										name="evaluation" id="inputEvaluation" list="my-datalist">
+									<datalist id="my-datalist">
+										<option value="0">
+										<option value="1">
+										<option value="2">
+										<option value="3">
+										<option value="4">
+										<option value="5">
+									</datalist>
+								</div>
+								<div class="col-md-4 form-floating">
+									<input type="text" name="price" class="form-control"
+										id="inputPrice" placeholder="Price"> <label
+										for="inputPrice" class="form-label">Price</label>
+								</div>
+								<div class="col-md-6 form-floating mb-3">
+									<input type="text" name="author" class="form-control"
+										id="inputAuthor" placeholder="Author"> <label
+										for="inputAuthor" class="form-label">Author</label>
+								</div>
+								<div class="col-md-6 form-floating">
+									<input type="text" name="publisher" class="form-control"
+										id="inputPublisher" placeholder="publisher"> <label
+										for="inputPublisher" class="form-label">Publisher</label>
+								</div>
+								<div class="col-md-5 form-floating">
+									<input type="text" name="purchaseStore" class="form-control"
+										id="inputPurchaseStore" placeholder="PurchaseStore"> <label
+										for="inputPurchaseStore" class="form-label">PurchaseStore</label>
+								</div>
+								<div class="col-md-5 form-floating">
+									<input type="date" name="purchaseDate" class="form-control"
+										id="inputPurchaseDate" placeholder="PurchaseDate"> <label
+										for="inputPurchaseDate" class="form-label">PurchaseDate</label>
+								</div>
+								<div class="col-md-2">
+									<input type="button" value="Reset" class="btn btn-warning"
+										onclick="resetForm();reset();">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">閉じる</button>
+							<button type="submit" form="registerForm" class="btn btn-success">更新</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 削除用Modal -->
+			<div class="modal fade" id="deleteModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title" id="exampleModalLabel">本棚からの削除</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>一度削除した内容は元には戻りません<br>よろしいですか？</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">閉じる</button>
+							<button type="submit" form="deleteForm" class="btn btn-danger">削除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 </body>
 </html>
