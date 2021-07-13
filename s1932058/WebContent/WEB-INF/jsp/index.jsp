@@ -40,8 +40,8 @@ items = (Items) request.getAttribute("result");
 							<div class="card-body">
 								<h4 id="title<%= i %>" class="card-title text-success"><u><%= items.getItems().get(i).getTitle() %></u></h4>
 								<p id="author<%= i %>">著者：<%= items.getItems().get(i).getAuthor() %></p>
-								<p>出版社：<%= items.getItems().get(i).getPublisherName() %></p>
-								<p>値段：<%= items.getItems().get(i).getItemPrice() %>円</p>
+								<p id="publisher<%= i %>">出版社：<%= items.getItems().get(i).getPublisherName() %></p>
+								<p id="price<%= i %>">¥<%= items.getItems().get(i).getItemPrice() %></p>
 								<p>発売日：<%= items.getItems().get(i).getSalesDate() %></p>
 								<p>レビュー評価：<%= items.getItems().get(i).getReviewAverage() %></p>
 								<button id="<%= i %>" class="btn btn-outline-secondary" onclick="register(this.id)">登録する</button>
@@ -54,6 +54,54 @@ items = (Items) request.getAttribute("result");
 			<div id="form-area" class="bg-secondary text-center m-3 p-3">
 				<h2>登録内容記入フォーム</h2>
 				<p>※記載された内容は後から変更可能です</p>
+				<form class="row g-3" action="/s1932058/MainServlet" method="post" id="registerForm">
+				  <div class="col-12 form-floating mb-3">
+				    <input type="text" name="title" class="form-control" id="inputTitle" placeholder="Title">
+				    <label for="inputTitle" class="form-label">Title</label>
+				  </div>
+				  <div class="col-12 form-floating">
+					  <textarea class="form-control" name="comment" placeholder="Leave a comment here" id="inputComment" style="height: 100px"></textarea>
+					  <label for="inputComment">Comments</label>
+					</div>
+					<div class="col-md-5 form-floating mb-3">
+				    <input type="text" name="author" class="form-control" id="inputAuthor" placeholder="Author">
+				    <label for="inputAuthor" class="form-label">Author</label>
+				  </div>
+				  <div class="col-md-5 form-floating">
+				    <input type="text" name="publisher" class="form-control" id="inputPublisher" placeholder="publisher">
+				    <label for="inputPublisher" class="form-label">Publisher</label>
+				  </div>
+				  <div class="col-md-2 form-floating">
+				    <input type="text" name="price" class="form-control" id="inputPrice" placeholder="Price">
+				    <label for="inputPrice" class="form-label">Price</label>
+				  </div>
+				  <div class="col-md-3 form-floating">
+				    <input type="text" name="purchaseStore" class="form-control" id="inputPurchaseStore" placeholder="PurchaseStore">
+				    <label for="inputPurchaseStore" class="form-label">PurchaseStore</label>
+				  </div>
+				  <div class="col-md-3 form-floating">
+				    <input type="date" name="purchaseDate" class="form-control" id="inputPurchaseDate" placeholder="PurchaseDate">
+				    <label for="inputPurchaseDate" class="form-label">PurchaseDate</label>
+				  </div>
+				  <div class="col-md-3 form-floating">
+				    <select id="inputState" class="form-select">
+				      <option selected>読みたい！</option>
+				      <option>読んでいる！</option>
+				      <option>読み終わった！</option>
+				    </select>
+				    <label for="inputState" class="form-label">State</label>
+				  </div>
+				  <div class="col-md-2 form-floating">
+				    <input type="number" class="form-control" id="inputEvaluation" min="1" max="5">
+				    <label for="inputEvaluation" class="form-label">Evaluation</label>
+				  </div>
+				    <div class="col-md-1">
+						<input type="button" value="back" class="btn btn-outline-warning" onclick="resetForm()">
+				    </div>
+				  <div class="col-12">
+				    <button type="submit" class="btn btn-outline-primary">登録する</button>
+				  </div>
+				</form>
 			</div>
 		</div>
 	</main>
@@ -67,91 +115,61 @@ items = (Items) request.getAttribute("result");
 	<script>
 		ScrollReveal().reveal('.card');
 		function register(id){
-			const formArea = document.getElementById("form-area");
+			// 登録内容の反映
+			const inputTitle = document.getElementById("inputTitle");
+			// 「登録する」を押された要素のタイトルを取得し、フォームに代入
+			const targetTitle = document.getElementById("title" + id);
+			inputTitle.setAttribute("value", targetTitle.innerText);
+			inputTitle.setAttribute("readonly", true);
 
-			const registerForm = document.getElementById("registerForm");
-			if(registerForm !== null) registerForm.remove();
+			const inputAuthor = document.getElementById("inputAuthor");
+			// 「登録する」を押された要素の著者を取得し、フォームに代入
+			const targetAuthor = document.getElementById("author" + id);
+			inputAuthor.setAttribute("value", targetAuthor.innerText.substring(3));
+			inputAuthor.setAttribute("readonly", true);
 
-			// 登録データをpostするため
-			const form = document.createElement("form");
-			form.setAttribute("action", "/s1932058/MainServlet");
-			form.setAttribute("method", "post");
-			form.setAttribute("id", "registerForm");
-			form.setAttribute("name", "registerForm");
+			const inputPublisher = document.getElementById("inputPublisher");
+			// 「登録する」を押された要素の出版社を取得し、フォームに代入
+			const targetPublisher = document.getElementById("publisher" + id);
+			inputPublisher.setAttribute("value", targetPublisher.innerText.substring(4));
+			inputPublisher.setAttribute("readonly", true);
 
-			const br1 = document.createElement("br");
+			const inputPrice = document.getElementById("inputPrice");
+			// 「登録する」を押された要素の値段を取得し、フォームに代入
+			const targetPrice = document.getElementById("price" + id);
+			inputPrice.setAttribute("value", targetPrice.innerText.substring(1));
+			inputPrice.setAttribute("readonly", true);
 
 			const targetImage = document.getElementById("img" + id);
 			const imageUrl = document.createElement("input");
 			imageUrl.setAttribute("type","hidden");
 			imageUrl.setAttribute("name","imageUrl");
 			imageUrl.setAttribute("value", targetImage.src);
+
+			const form = document.getElementById("registerForm");
 			form.appendChild(imageUrl);
 
-			const targetTitle = document.getElementById("title" + id);
-			const labelTitle = document.createElement("label");
-			labelTitle.setAttribute("for","title");
-			labelTitle.innerText = "タイトル";
-			const title = document.createElement("input");
-			title.setAttribute("type","text");
-			title.setAttribute("id","title");
-			title.setAttribute("name","title");
-			title.setAttribute("value", targetTitle.innerText);
-			form.appendChild(labelTitle);
-			form.appendChild(title);
-			form.appendChild(br1);
+			document.getElementById("inputComment").focus()
+		}
 
-			const br2 = document.createElement("br");
+		function resetForm() {
+			const inputTitle = document.getElementById("inputTitle");
+			inputTitle.readOnly = false;
+			inputTitle.setAttribute("value", "");
 
-			const targetAuthor = document.getElementById("author" + id);
-			const labelAuthor = document.createElement("label");
-			labelAuthor.setAttribute("for","author");
-			labelAuthor.innerText = "著者";
-			const author = document.createElement("input");
-			author.setAttribute("type","text");
-			author.setAttribute("id","author");
-			author.setAttribute("name","author");
-			author.setAttribute("value", targetAuthor.innerText.substring(3));
-			form.appendChild(labelAuthor);
-			form.appendChild(author);
-			form.appendChild(br2);
+			const inputAuthor = document.getElementById("inputAuthor");
+			inputAuthor.setAttribute("value", "");
+			inputAuthor.removeAttribute("readonly");
 
-			const br3 = document.createElement("br");
+			const inputPublisher = document.getElementById("inputPublisher");
+			inputPublisher.setAttribute("value", "");
+			inputPublisher.removeAttribute("readonly");
 
-			const labelComment = document.createElement("label");
-			labelComment.setAttribute("for","comment");
-			const inputComment = document.createElement("input");
-			inputComment.setAttribute("type","textarea");
-			inputComment.setAttribute("size", 10);
-			inputComment.setAttribute("id","comment");
-			inputComment.setAttribute("name","comment");
-			inputComment.setAttribute("placeholder", "面白い!!!");
-			form.appendChild(labelComment);
-			form.appendChild(inputComment);
-			form.appendChild(br3);
+			const inputPrice = document.getElementById("inputPrice");
+			inputPrice.setAttribute("value", "");
+			inputPrice.removeAttribute("readonly");
 
-			const br4 = document.createElement("br");
-
-			const store = document.createElement("input");
-			store.setAttribute("type","text");
-			store.setAttribute("id","store");
-			store.setAttribute("name","store");
-			store.setAttribute("placeholder", "購入店舗名");
-			form.appendChild(store);
-			form.appendChild(br4);
-
-			const br5 = document.createElement("br");
-
-			const submit = document.createElement("input");
-			submit.setAttribute("type","submit");
-			submit.setAttribute("class","btn btn-outline-primary");
-			submit.setAttribute("value","登録");
-			form.appendChild(submit);
-			form.appendChild(br5);
-
-			formArea.appendChild(form);
-
-			document.registerForm.comment.focus();
+			alert("リセットしてよろしいですか");
 		}
 	</script>
 </body>

@@ -21,7 +21,7 @@ String imageUrl = request.getParameter("imageUrl");
 	<p>タイトル	: <%= title %></p>
 	<p>著者		： <%= author %></p>
 	<p>コメント	： <%= comment %></p>
-	<p>店舗名	： <%= store %></p>
+	<p>店舗名	： <%= PurchaseStore %></p>
 
 	<a href="/s1932058/MainServlet">トップページに戻る</a>
 	<a href="/s1932058/MainServlet">登録した本を見る</a>
