@@ -98,18 +98,29 @@ public class MainServlet extends HttpServlet {
 			String purchaseStore = request.getParameter("purchaseStore");
 			String purchaseDate = request.getParameter("purchaseDate");
 			String imageUrl = request.getParameter("imageUrl");
-			insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
-			dispatcher.forward(request, response);
+			// 既に登録されていないか判定
+			boolean isRegister = search(title);
+			if(isRegister) {
+				insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/error.jsp");
+				dispatcher.forward(request, response);
+			}
 		}
 	}
-
 
 	void insert(String title, String author, String publisher, int price, String imageUrl, String comment,
 			int evaluation, String state, String purchaseStore, String purchaseDate) {
 		ManageDAO md = new ManageDAO();
 		String id = UUID.randomUUID().toString();
 		md.insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+	}
+
+	boolean search(String title) {
+		ManageDAO md = new ManageDAO();
+		return md.searh(title);
 	}
 
 }

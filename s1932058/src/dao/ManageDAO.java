@@ -123,4 +123,29 @@ public class ManageDAO {
 		}
 		return false;
 	}
+
+	public boolean searh(String title) {
+		String url = "jdbc:h2:tcp://localhost/c:/pleiades/h2/s1932058";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, "user", "pass");
+			String sql = "SELECT * FROM MANAGE WHERE TITLE=?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, title);
+			ResultSet rs = pre.executeQuery();
+			boolean isExists = rs.next();
+			if(!isExists) return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
 }
