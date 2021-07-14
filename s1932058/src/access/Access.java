@@ -12,13 +12,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Access {
 
-	public JsonNode getResult(String urlString) {
+	public JsonNode getResult(String... params) {
+		String apiUrl = "https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404"
+				+ "?format=json"
+				+ "&applicationId=1062302241302135134"
+				+ "&formatVersion=2"
+				+ "&booksGenreId=000"
+				+ "&hits=30";
+		for(String param :params) {
+			apiUrl += "&" + param;
+		}
 		HttpURLConnection conn = null;
 		String result = "";
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode jsonResult = null; // 初期化
 		try {
-			URL url = new URL(urlString);
+			URL url = new URL(apiUrl);
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.connect();

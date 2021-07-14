@@ -18,7 +18,6 @@ import access.Access;
 import dao.ManageDAO;
 import model.BookData;
 import model.Items;
-import model.Manage;
 
 /**
  * Servlet implementation class MainServlet
@@ -39,15 +38,15 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = "https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404"
-				+ "?format=json&keyword=%E6%9C%AC&booksGenreId=000&sort=sales&hits=30"
-				+ "&formatVersion=2&elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl"
-				+ "&applicationId=1062302241302135134";
 		Access api = new Access();
 		Items items = new Items();
 		List<BookData> list = new ArrayList<>();
-		JsonNode result = api.getResult(url);
-		for(int i = 0; i<10; i++) {
+		// パラメータ
+		String keyword = "keyword=%E6%9C%AC";
+		String sort = "&sort=sales";
+		String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
+		JsonNode result = api.getResult(keyword, sort, element);
+		for(int i = 0; i<30; i++) {
 			String title = result.get("Items").get(i).get("title").asText();
 			String author = result.get("Items").get(i).get("author").asText();
 			String publisherName = result.get("Items").get(i).get("publisherName").asText();
@@ -86,13 +85,6 @@ public class MainServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	/** DAOを呼び出す */
-	void selectAll(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException {
-		ManageDAO md = new ManageDAO();
-		List<Manage> list = md.findAll();
-		request.setAttribute("list", list);
-	}
 
 	void insert(String title, String author, String publisher, int price, String imageUrl, String comment,
 			int evaluation, String state, String purchaseStore, String purchaseDate) {
