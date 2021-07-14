@@ -41,11 +41,22 @@ public class MainServlet extends HttpServlet {
 		Access api = new Access();
 		Items items = new Items();
 		List<BookData> list = new ArrayList<>();
-		// パラメータ
-		String keyword = "keyword=%E6%9C%AC";
-		String sort = "&sort=sales";
-		String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
-		JsonNode result = api.getResult(keyword, sort, element);
+		JsonNode result;
+		/** post searchの場合の処理 */
+		if(request.getParameter("Action") == "search") {
+			String search = request.getParameter("searchKeyword");
+			// パラメータ
+			String keyword = "keyword=" + search;
+			String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
+			result = api.getResult(keyword, element);
+		} else {
+			// パラメータ
+			String keyword = "keyword=%E6%9C%AC";
+			String sort = "&sort=sales";
+			String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
+			result = api.getResult(keyword, sort, element);
+		}
+
 		for(int i = 0; i<30; i++) {
 			String title = result.get("Items").get(i).get("title").asText();
 			String author = result.get("Items").get(i).get("author").asText();
@@ -69,20 +80,25 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/** 文字化けを避ける */
 		request.setCharacterEncoding("UTF-8");
-		/** データベースにフォーム内容を登録する */
-		String title = request.getParameter("title");
-		String author = request.getParameter("author");
-		String publisher = request.getParameter("publisher");
-		int price = Integer.parseInt(request.getParameter("price"));
-		String comment = request.getParameter("comment");
-		String state = request.getParameter("state");
-		int evaluation = Integer.parseInt(request.getParameter("evaluation"));
-		String purchaseStore = request.getParameter("purchaseStore");
-		String purchaseDate = request.getParameter("purchaseDate");
-		String imageUrl = request.getParameter("imageUrl");
-		insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
-		dispatcher.forward(request, response);
+		/** post内容によって処理を分ける */
+		if(request.getParameter("Action") == "search") {
+			doGet(request, response);
+		}else if (request.getParameter("Action") == "register") {
+			/** データベースにフォーム内容を登録する */
+			String title = request.getParameter("title");
+			String author = request.getParameter("author");
+			String publisher = request.getParameter("publisher");
+			int price = Integer.parseInt(request.getParameter("price"));
+			String comment = request.getParameter("comment");
+			String state = request.getParameter("state");
+			int evaluation = Integer.parseInt(request.getParameter("evaluation"));
+			String purchaseStore = request.getParameter("purchaseStore");
+			String purchaseDate = request.getParameter("purchaseDate");
+			String imageUrl = request.getParameter("imageUrl");
+			insert(title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registerResult.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 
