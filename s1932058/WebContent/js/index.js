@@ -1,3 +1,8 @@
+/**
+ * 押された要素のインデックスに対応するデータを取得し、フォームに反映させる
+ * @param id 押された要素のインデックス
+ * @returns
+ */
 function bindData(id) {
 	// 登録内容の反映
 	const inputTitle = document.getElementById("inputTitle");
@@ -40,6 +45,10 @@ function bindData(id) {
 	document.getElementById("inputComment").focus()
 }
 
+/**
+ * フォームの全ての要素のvalueを削除、readonlyを解除
+ * @returns
+ */
 function resetForm() {
 	const inputTitle = document.getElementById("inputTitle");
 	inputTitle.readOnly = false;

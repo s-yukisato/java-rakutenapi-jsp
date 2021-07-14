@@ -43,7 +43,7 @@ public class MainServlet extends HttpServlet {
 		List<BookData> list = new ArrayList<>();
 		JsonNode result;
 		/** post searchの場合の処理 */
-		if(request.getParameter("Action") == "search") {
+		if(request.getParameter("searchKeyword") != null) {
 			String search = request.getParameter("searchKeyword");
 			// パラメータ
 			String keyword = "keyword=" + search;
@@ -80,10 +80,11 @@ public class MainServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/** 文字化けを避ける */
 		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		/** post内容によって処理を分ける */
-		if(request.getParameter("Action") == "search") {
+		if(request.getParameter("Action").equals("search")) {
 			doGet(request, response);
-		}else if (request.getParameter("Action") == "register") {
+		}else if (request.getParameter("Action").equals("register")) {
 			/** データベースにフォーム内容を登録する */
 			String title = request.getParameter("title");
 			String author = request.getParameter("author");
@@ -106,7 +107,7 @@ public class MainServlet extends HttpServlet {
 			int evaluation, String state, String purchaseStore, String purchaseDate) {
 		ManageDAO md = new ManageDAO();
 		String id = UUID.randomUUID().toString();
-		boolean success = md.insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+		md.insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
 	}
 
 }

@@ -41,7 +41,29 @@ public class BookshelfServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		/** 文字化けを避ける */
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		/** post内容によって処理を分ける */
+		if(request.getParameter("Action").equals("update")) {
+			/** データベースにフォーム内容を登録する */
+			String id = request.getParameter("id");
+			String title = request.getParameter("title");
+			String author = request.getParameter("author");
+			String publisher = request.getParameter("publisher");
+			int price = Integer.parseInt(request.getParameter("price"));
+			String comment = request.getParameter("comment");
+			String state = request.getParameter("state");
+			int evaluation = Integer.parseInt(request.getParameter("evaluation"));
+			String purchaseStore = request.getParameter("purchaseStore");
+			String purchaseDate = request.getParameter("purchaseDate");
+			String imageUrl = request.getParameter("imageUrl");
+			delete(id);
+			insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+		}else if (request.getParameter("Action").equals("delete")) {
+			String id = request.getParameter("id");
+			delete(id);
+		}
 		doGet(request, response);
 	}
 
@@ -51,6 +73,17 @@ public class BookshelfServlet extends HttpServlet {
 		ManageDAO md = new ManageDAO();
 		List<Manage> list = md.findAll();
 		request.setAttribute("list", list);
+	}
+
+	void insert(String id, String title, String author, String publisher, int price, String imageUrl, String comment,
+			int evaluation, String state, String purchaseStore, String purchaseDate) {
+		ManageDAO md = new ManageDAO();
+		md.insert(id, title, author, publisher, price, imageUrl, comment, evaluation, state, purchaseStore, purchaseDate);
+	}
+
+	void delete(String id) throws ServletException {
+		ManageDAO md = new ManageDAO();
+		md.delete(id);
 	}
 
 }

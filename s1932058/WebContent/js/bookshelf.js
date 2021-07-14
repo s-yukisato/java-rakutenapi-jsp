@@ -71,7 +71,7 @@ function bindRegisterData(data) {
 		detailPurchaseStore.innerText = "購入店舗名：" + targetPurchaseStore.innerText;
 	} else if(action == "update") {
 		const inputPurchaseStore = document.getElementById("inputPurchaseStore");
-		inputPurchaseStore.setAttribute("value", targetTitle.innerText);
+		inputPurchaseStore.setAttribute("value", targetPurchaseStore.innerText);
 	}
 
 	const targetPurchaseDate = document.getElementById("purchaseDate" + id);
@@ -83,29 +83,42 @@ function bindRegisterData(data) {
 		inputPurchaseDate.setAttribute("value", targetPurchaseDate.innerText);
 	}
 
+	const form = document.getElementById("updateForm");
+
+	const targetImage = document.getElementById("img" + id);
+	if(action == "detail") {
+		const detailImage = document.getElementById("detailImage");
+		detailImage.setAttribute("src", targetImage.src);
+	} else if(action == "update") {
+		const imageUrl = document.createElement("input");
+		imageUrl.setAttribute("type", "hidden");
+		imageUrl.setAttribute("name", "imageUrl");
+		imageUrl.setAttribute("value", targetImage.src);
+		form.appendChild(imageUrl);
+	}
+
+	const targetId = document.getElementById("id" + id);
+	if(action == "detail") {
+
+	} else if(action == "update") {
+		const id = document.createElement("input");
+		id.setAttribute("type", "hidden");
+		id.setAttribute("name", "id");
+		id.setAttribute("value", targetId.innerText);
+		form.appendChild(id);
+	} else if(action == "delete") {
+		const id = document.createElement("input");
+		id.setAttribute("type", "hidden");
+		id.setAttribute("name", "id");
+		id.setAttribute("value", targetId.innerText);
+		const deleteForm = document.getElementById("deleteForm");
+		deleteForm.appendChild(id);
+	}
+
+
 	if(action == "detail") {
 
 	} else if(action == "update") {
 		document.getElementById("inputComment").focus()
 	}
-}
-
-function resetForm() {
-	const inputTitle = document.getElementById("inputTitle");
-	inputTitle.readOnly = false;
-	inputTitle.setAttribute("value", "");
-
-	const inputAuthor = document.getElementById("inputAuthor");
-	inputAuthor.setAttribute("value", "");
-	inputAuthor.removeAttribute("readonly");
-
-	const inputPublisher = document.getElementById("inputPublisher");
-	inputPublisher.setAttribute("value", "");
-	inputPublisher.removeAttribute("readonly");
-
-	const inputPrice = document.getElementById("inputPrice");
-	inputPrice.setAttribute("value", "");
-	inputPrice.removeAttribute("readonly");
-
-	settingDate();
 }

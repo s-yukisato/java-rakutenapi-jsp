@@ -49,7 +49,7 @@
 			<div class="container">
 				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 				<%
-					if (bookList != null) {
+					if (bookList.size() != 0) {
 				%>
 					<%
 						for (int i = 0; i < bookList.size(); i++) {
@@ -57,11 +57,11 @@
 					<div class="col">
 						<div class="card shadow-sm">
 							<img id="img<%=i%>" class="d-block mx-auto"
-								src="<%= bookList.get(i).getImageUrl()%>" width="177"
+								src="<%= bookList.get(i).getImageUrl() %>" width="177"
 								height="200">
 							<div class="card-body">
 								<h4 id="title<%=i%>" class="card-title text-success">
-									<u><%= bookList.get(i).getTitle()%></u>
+									<u><%= bookList.get(i).getTitle() %></u>
 								</h4>
 								<!--  jsから取得用 -->
 								<div class="d-none" >
@@ -83,7 +83,7 @@
 									onclick="bindRegisterData(this.id)">変更</button>
 								<button type="button" id="<%=i%>delete" class="btn btn-danger"
 									data-bs-toggle="modal" data-bs-target="#deleteModal"
-								>削除</button>
+									onclick="bindRegisterData(this.id)">削除</button>
 							</div>
 						</div>
 					</div>
@@ -94,7 +94,7 @@
 					} else {
 				%>
 					<h1>登録した本がありません。</h1>
-					<a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探す</u></a>
+					<a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探しに行く！</u></a>
 				<%
 					}
 				%>
@@ -126,7 +126,6 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">閉じる</button>
-							<button type="submit" form="registerForm" class="btn btn-success">更新</button>
 						</div>
 					</div>
 				</div>
@@ -143,8 +142,8 @@
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<form class="row g-3" action="/s1932058/MainServlet"
-								method="post" id="registerForm">
+							<form class="row g-3" action="/s1932058/BookshelfServlet"
+								method="post" id="updateForm">
 								<div class="col-12 form-floating mb-3">
 									<input type="text" name="title" class="form-control"
 										id="inputTitle" placeholder="Title"> <label
@@ -205,12 +204,13 @@
 									<input type="button" value="Reset" class="btn btn-warning"
 										onclick="resetForm();reset();">
 								</div>
+								<input type="hidden" name="Action" value="update">
 							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">閉じる</button>
-							<button type="submit" form="registerForm" class="btn btn-success">更新</button>
+							<button type="submit" form="updateForm" class="btn btn-success">更新</button>
 						</div>
 					</div>
 				</div>
@@ -228,6 +228,9 @@
 						</div>
 						<div class="modal-body">
 							<p>一度削除した内容は元には戻りません<br>よろしいですか？</p>
+							<form action="/s1932058/BookshelfServlet" method="post" id="deleteForm">
+								<input type="hidden" name="Action" value="delete">
+							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"

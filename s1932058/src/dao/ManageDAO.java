@@ -97,4 +97,30 @@ public class ManageDAO {
 		}
 		return false;
 	}
+
+	public boolean delete(String id) {
+		String url = "jdbc:h2:tcp://localhost/c:/pleiades/h2/s1932058";
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, "user", "pass");
+			String sql = "DELETE FROM MANAGE WHERE ID=?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, id);
+			int result = pre.executeUpdate();
+			if (result == 1) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
 }

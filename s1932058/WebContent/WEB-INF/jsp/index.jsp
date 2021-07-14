@@ -61,7 +61,7 @@
 				name="Action" value="search">
 				<input class="form-control me-2" type="search" placeholder="Search"
 					aria-label="Search" name="searchKeyword">
-				<button class="btn btn-outline-success" type="submit">Search</button>
+				<button class="btn btn-outline-success" type="submit" name="Action" value="search">Search</button>
 			</form>
 			</div>
 
@@ -107,7 +107,8 @@
 					%>
 				</div>
 			</div>
-			<!-- Modal -->
+
+			<!-- 登録用Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -119,7 +120,7 @@
 						</div>
 						<div class="modal-body">
 							<form class="row g-3" action="/s1932058/MainServlet"
-								method="post" id="registerForm" name="Action" value="register">
+								method="post" id="registerForm">
 								<div class="col-12 form-floating mb-3">
 									<input type="text" name="title" class="form-control"
 										id="inputTitle" placeholder="Title"> <label
@@ -180,6 +181,7 @@
 									<input type="button" value="Reset" class="btn btn-warning"
 										onclick="resetForm();reset();">
 								</div>
+								<input type="hidden"  name="Action" value="register">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -190,6 +192,38 @@
 					</div>
 				</div>
 			</div>
+			<!-- 終　登録用Modal -->
+
+			<!-- 検索用Modal -->
+			<div class="modal fade" id="searchModal" tabindex="-1"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<h5 class="modal-title" id="exampleModalLabel">検索</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<form class="row g-3" action="/s1932058/MainServlet"
+								method="post" id="registerForm">
+								<div class="col-12 form-floating mb-3">
+									<input type="text" name="title" class="form-control"
+										id="inputTitle" placeholder="Title"> <label
+										for="inputTitle" class="form-label">Title</label>
+								</div>
+								<input type="hidden"  name="Action" value="search">
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">閉じる</button>
+							<button type="submit" form="registerForm" class="btn btn-success">検索！</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 終　検索用Modal -->
 		</div>
 	</main>
 	<footer class="bg-secondary text-muted py-5">
