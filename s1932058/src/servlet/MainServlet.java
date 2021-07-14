@@ -49,12 +49,14 @@ public class MainServlet extends HttpServlet {
 			String keyword = "keyword=" + search;
 			String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
 			result = api.getResult(keyword, element);
+			request.setAttribute("mode", "search");
 		} else {
 			// パラメータ
 			String keyword = "keyword=%E6%9C%AC";
 			String sort = "&sort=sales";
 			String element = "elements=title%2Cauthor%2CsalesDate%2CpublisherName%2CitemPrice%2CreviewAverage%2ClargeImageUrl";
 			result = api.getResult(keyword, sort, element);
+			request.setAttribute("mode", "ranking");
 		}
 
 		for(int i = 0; i<30; i++) {

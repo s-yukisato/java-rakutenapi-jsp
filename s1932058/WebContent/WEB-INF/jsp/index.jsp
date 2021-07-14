@@ -4,6 +4,7 @@
 <%
 	Items items = new Items();
 	items = (Items) request.getAttribute("result");
+	String mode = (String) request.getAttribute("mode");
 %>
 <!DOCTYPE html>
 <html>
@@ -48,7 +49,7 @@
 		</div>
 
 		<div class="bg-dark shadow-sm">
-			<div class="container">
+			<div class="container mb-3 p-3">
 				<a href="#" class="navbar-brand d-flex align-items-center"> <svg
 						xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 						fill="none" stroke="currentColor" stroke-linecap="round"
@@ -57,12 +58,12 @@
                         <circle cx="12" cy="13" r="4" />
                     </svg> <strong class="text-light">おすすめの書籍一覧</strong>
 				</a>
-			<form action="/s1932058/MainServlet" method="post" class="d-flex"
-				name="Action" value="search">
-				<input class="form-control me-2" type="search" placeholder="Search"
-					aria-label="Search" name="searchKeyword">
-				<button class="btn btn-outline-success" type="submit" name="Action" value="search">Search</button>
-			</form>
+				<form action="/s1932058/MainServlet" method="post" class="d-flex"
+					name="Action" value="search">
+					<input class="form-control me-2" type="search" placeholder="Search"
+						aria-label="Search" name="searchKeyword">
+					<button class="btn btn-outline-success" type="submit" name="Action" value="search">Search</button>
+				</form>
 			</div>
 
 		</div>
@@ -76,14 +77,26 @@
 					%>
 					<div class="col">
 						<div class="card shadow-sm">
-							<p class="text-center">
-								ランキング第<%=i + 1%>位
-							</p>
+							<%
+								if(mode.equals("ranking")) {
+							%>
+								<h4 class="text-center p-2">
+									ランキング　第<%=i + 1%>位
+								</h4>
+							<%
+								} else if(mode.equals("search")) {
+							%>
+								<h4 class="text-center p-2">
+									検索結果　<%=i + 1%>
+								</h4>
+							<%
+								}
+							%>
 							<img id="img<%=i%>" class="d-block mx-auto"
 								src="<%=items.getItems().get(i).getImageUrl()%>" width="177"
 								height="200">
 							<div class="card-body">
-								<h4 id="title<%=i%>" class="card-title text-success">
+								<h4 id="title<%=i%>" class="card-title text-success overflow-hidden" style="height: 50pt;">
 									<u><%=items.getItems().get(i).getTitle()%></u>
 								</h4>
 								<p id="author<%=i%>">
@@ -226,8 +239,9 @@
 			<!-- 終　検索用Modal -->
 		</div>
 	</main>
-	<footer class="bg-secondary text-muted py-5">
-		<div class="container m-3 p-3" style="height: 100px">
+	<footer class="bg-light text-muted py-5 m-3 p-3">
+		<div class="container m-3 p-3" style="height: 50px">
+			<p class="float-start mb-1">Copyright © 2021 </p>
 			<p class="float-end mb-1">
 				<a href="#">Back to top</a>
 			</p>

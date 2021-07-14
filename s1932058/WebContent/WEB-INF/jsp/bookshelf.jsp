@@ -47,10 +47,10 @@
 		<main>
 		<div>
 			<div class="container">
-				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 				<%
 					if (bookList.size() != 0) {
 				%>
+					<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 					<%
 						for (int i = 0; i < bookList.size(); i++) {
 					%>
@@ -60,7 +60,7 @@
 								src="<%= bookList.get(i).getImageUrl() %>" width="177"
 								height="200">
 							<div class="card-body">
-								<h4 id="title<%=i%>" class="card-title text-success">
+								<h4 id="title<%=i%>" class="card-title text-info overflow-hidden" style="height: 50pt;">
 									<u><%= bookList.get(i).getTitle() %></u>
 								</h4>
 								<!--  jsから取得用 -->
@@ -93,8 +93,11 @@
 				<%
 					} else {
 				%>
-					<h1>登録した本がありません。</h1>
-					<a href="/s1932058/MainServlet" class="btn text-white" role="button" style="font-size:16pt;"><u>本を探しに行く！</u></a>
+					<div class="bg-light d-flex align-items-center justify-content-center row m-3 p-3" style="height:300px;">
+						<h1 class="col-12">登録された本が見つかりませんでした</h1>
+						<br>
+						<a href="/s1932058/MainServlet" class="btn" role="button" style="font-size:16pt;"><u>本を探しに行く</u></a>
+					</div>
 				<%
 					}
 				%>
