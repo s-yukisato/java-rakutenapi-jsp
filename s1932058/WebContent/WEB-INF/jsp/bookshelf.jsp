@@ -46,7 +46,7 @@
 	</header>
 		<main>
 		<div>
-			<div class="container">
+			<div class="container p-3">
 				<%
 					if (bookList.size() != 0) {
 				%>
@@ -55,7 +55,7 @@
 						for (int i = 0; i < bookList.size(); i++) {
 					%>
 					<div class="col">
-						<div class="card shadow-sm">
+						<div class="card shadow-sm p-3">
 							<img id="img<%=i%>" class="d-block mx-auto"
 								src="<%= bookList.get(i).getImageUrl() %>" width="177"
 								height="200">
@@ -245,5 +245,17 @@
 			</div>
 		</div>
 	</main>
+
+	<footer class="bg-light text-muted py-5 m-3 p-3">
+		<div class="container m-3 p-3" style="height: 50px">
+			<p class="float-start mb-1">Copyright © 2021 </p>
+			<p class="float-end mb-1">
+				<a href="#">Back to top</a>
+			</p>
+		</div>
+	</footer>
+	<script>
+		ScrollReveal().reveal('.card');
+	</script>
 </body>
 </html>

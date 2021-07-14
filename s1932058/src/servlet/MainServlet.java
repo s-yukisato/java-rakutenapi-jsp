@@ -43,7 +43,7 @@ public class MainServlet extends HttpServlet {
 		List<BookData> list = new ArrayList<>();
 		JsonNode result;
 		/** post searchの場合の処理 */
-		if(request.getParameter("searchKeyword") != null) {
+		if(request.getParameter("searchKeyword") != null && !request.getParameter("searchKeyword").equals("")) {
 			String search = request.getParameter("searchKeyword");
 			// パラメータ
 			String keyword = "keyword=" + search;

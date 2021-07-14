@@ -58,11 +58,11 @@
                         <circle cx="12" cy="13" r="4" />
                     </svg> <strong class="text-light">おすすめの書籍一覧</strong>
 				</a>
-				<form action="/s1932058/MainServlet" method="post" class="d-flex"
-					name="Action" value="search">
+				<form action="/s1932058/MainServlet" method="post" class="d-flex">
+					<input type="hidden" name="Action" value="search">
 					<input class="form-control me-2" type="search" placeholder="Search"
 						aria-label="Search" name="searchKeyword">
-					<button class="btn btn-outline-success" type="submit" name="Action" value="search">Search</button>
+					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
 			</div>
 
