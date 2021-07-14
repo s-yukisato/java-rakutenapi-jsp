@@ -18,7 +18,7 @@ String imageUrl = request.getParameter("imageUrl");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>登録内容の確認</title>
 </head>
 <body>
 	<h2>以下の内容で登録しました</h2>
@@ -34,6 +34,6 @@ String imageUrl = request.getParameter("imageUrl");
 	<p>購入日	： <%= purchaseDate  %></p>
 
 	<a href="/s1932058/MainServlet">トップページに戻る</a>
-	<a href="/s1932058/MainServlet">登録した本を見る</a>
+	<a href="/s1932058/BookshelfServlet">登録した本を見る</a>
 </body>
 </html>

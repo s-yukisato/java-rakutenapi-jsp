@@ -11,8 +11,12 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/style.css">
 <title>TOP PAGE</title>
+<!-- スクロールで現れる -->
 <script src="https://unpkg.com/scrollreveal"></script>
+<!-- Bootstrap -->
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
+<!-- 自作関数 -->
+<script src="${pageContext.request.contextPath}/js/bookshelf.js"></script>
 <title>MY本棚</title>
 </head>
 <body>
@@ -59,13 +63,25 @@
 								<h4 id="title<%=i%>" class="card-title text-success">
 									<u><%= bookList.get(i).getTitle()%></u>
 								</h4>
-								<button type="button" id="<%=i%>" class="btn btn-secondary"
+								<!--  jsから取得用 -->
+								<div class="d-none" >
+									<p id="id<%=i%>"><%= bookList.get(i).getId()%></p>
+									<p id="author<%=i%>"><%= bookList.get(i).getAuthor()%></p>
+									<p id="publisher<%=i%>"><%= bookList.get(i).getPublisher()%></p>
+									<p id="price<%=i%>"><%= bookList.get(i).getPrice()%></p>
+									<p id="comment<%=i%>"><%= bookList.get(i).getComment()%></p>
+									<p id="evaluation<%=i%>"><%= bookList.get(i).getEvaluation()%></p>
+									<p id="state<%=i%>"><%= bookList.get(i).getState()%></p>
+									<p id="purchaseStore<%=i%>"><%= bookList.get(i).getPurchaseStore()%></p>
+									<p id="purchaseDate<%=i%>"><%= bookList.get(i).getPurchaseDate()%></p>
+								</div>
+								<button type="button" id="<%=i%>detail" class="btn btn-secondary"
 									data-bs-toggle="modal" data-bs-target="#detailModal"
-									onclick="bindData(this.id)">詳細</button>
-								<button type="button" id="<%=i%>" class="btn btn-warning"
+									onclick="bindRegisterData(this.id)">詳細</button>
+								<button type="button" id="<%=i%>update" class="btn btn-warning"
 									data-bs-toggle="modal" data-bs-target="#updateModal"
-									onclick="bindData(this.id)">変更</button>
-								<button type="button" id="<%=i%>" class="btn btn-danger"
+									onclick="bindRegisterData(this.id)">変更</button>
+								<button type="button" id="<%=i%>delete" class="btn btn-danger"
 									data-bs-toggle="modal" data-bs-target="#deleteModal"
 								>削除</button>
 							</div>
@@ -96,16 +112,16 @@
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							<img src="<%= imageUrl %>">
-							<p>タイトル	: <%= title %></p>
-							<p>著者		： <%= author %></p>
-							<p>出版社	： <%= publisher %></p>
-							<p>値段 	： <%= price %></p>
-							<p>状態 	： <%= state %></p>
-							<p>評価 	： <%= evaluation %></p>
-							<p>コメント	： <%= comment %></p>
-							<p>店舗名	： <%= purchaseStore  %></p>
-							<p>購入日	： <%= purchaseDate  %></p>
+							<img id="detailImage">
+							<p id="detailTitle"></p>
+							<p id="detailAuthor"></p>
+							<p id="detailPublisher"></p>
+							<p id="detailPrice"></p>
+							<p id="detailState"></p>
+							<p id="detailEvaluation"></p>
+							<p id="detailComment"></p>
+							<p id="detailPurchaseStore"></p>
+							<p id="detailPurchaseDate"></p>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
